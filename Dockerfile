@@ -8,6 +8,7 @@ WORKDIR /davmail
 
 RUN apt-get install -y ant git
 RUN git clone https://github.com/mguessan/davmail .
+RUN git checkout trunk
 RUN ant -Dfile.encoding=UTF-8
 
 
@@ -26,4 +27,4 @@ ENV SWT_GTK3=0
 
 EXPOSE 1110 1025 1143 1080 1389
 
-CMD ["java", "davmail.DavGateway", "/davmail.properties"]
+CMD ["java", "-Xmx512M", "-Dsun.net.inetaddr.ttl=60", "davmail.DavGateway", "/davmail.properties"]

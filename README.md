@@ -1,3 +1,7 @@
+# DavMail in Docker
+
+This is a Dockerfile that allows you to run [DavMail](https://github.com/mguessan/davmail) inside of docker. DavMail is a service that allows you to use Exchange and Office 365 with any standard (email) client by transforming their proprietary protocol to the well-known and used POP/IMAP/SMTP/Caldav/Carddav/LDAP.
+
 ### Running on a server (headless)
 
 To run davmail (headless) in Docker, download the `Dockerfile` and `compose.yml` file to your server.
@@ -13,13 +17,13 @@ docker compose up -d
 
 Note that the first command will download and compile davmail, which might take a while depending on your server's internet speed and processor. Once build, you don't have to build it again and running the second command only is enough.
 
-Also as a side note, make sure to change the ports in the `compose.yml` file to make sure you are not exposing them to the public (unless you want that, of course).
+Also make sure to change the ports in the `compose.yml` file to make sure you are not exposing them to the public (unless you want that, of course).
 
 ### Setting up OAuth2 on "headless"
 
 Normally running davmail headless means that you can not use OAuth2, because you need a GUI for that. However, what you can do is download the `Dockerfile` to your **PC** and download the config from [here](https://github.com/mguessan/davmail/blob/master/src/etc/davmail.properties), make sure to save it as `davmail.properties`.
 
-Edit the `davmail.properties` file and set `davmail.server=false` and set `davmail.mode=O365Manual` (or whatever method you want to use, see [Exchange protocol](https://davmail.sourceforge.net/gettingstarted.html)), and run the command below.
+Edit the `davmail.properties` file and set `davmail.server=false` and set `davmail.mode=O365Manual` (or whatever method you want to use, see [Exchange protocol](https://davmail.sourceforge.net/gettingstarted.html)), and run the commands below (make sure to do this on your **PC**).
 
 ```
 docker build . -t davmail # again, this might take a bit
@@ -34,6 +38,8 @@ After pressing connect on the email client (sometimes you may need to ignore ssl
 At the bottom, there is an entry called `davmail.oauth.<email>.refreshToken`. Copy this to the `server.properties` on your server and then restart the container (on your server). You can now configure your email client again using the same steps before, but instead of localhost you should use your server ip (make sure you put in the same `<password>`).
 
 ### Setting up SSL
+
+If you want to setup SSL/TLS using traefik, please see the `traefik` directory. Otherwise, follow the instructions below.
 
 If you are running davmail on your server, make sure to setup SSL. In order to do this, use a service like letsencrypt or create a self signed certificate. In the case of letsencrypt, go to `certs/live/<DOMAIN>` and run the following command
 
