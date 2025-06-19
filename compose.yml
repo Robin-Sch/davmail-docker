@@ -8,6 +8,4 @@ services:
             - 127.0.0.1:1025:1025 # SMTP
             - 127.0.0.1:1143:1143 # IMAP
         volumes:
-            - ./davmail.properties:/davmail.properties
-            - ./.env.oauth:/.env.oauth
-#            - ./davmail.p12:/davmail.p12 # uncomment for SSL (see README.md)
+            - ./config:/config
