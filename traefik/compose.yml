@@ -6,6 +6,7 @@ services:
         restart: unless-stopped
         volumes:
             - ./davmail.properties:/davmail.properties
+            - ./.env.oauth:/.env.oauth
         labels:
             - traefik.enable=true
             # Used for SSl cert

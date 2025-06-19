@@ -8,6 +8,10 @@ To run davmail (headless) in Docker, download the `Dockerfile` and `compose.yml`
 
 You also need to download the server config from [here](https://raw.githubusercontent.com/mguessan/davmail/refs/heads/master/src/etc/davmail.properties) and save it as `davmail.properties`.
 
+And create a file (for now empty) named `.env.oauth` by running `touch .env.oauth`. Make sure to update the permissions of this file (if needed), as your OAuth tokens will be stored in here.
+
+Edit the `davmail.properties` file and set `davmail.oauth.tokenFilePath=/.env.oauth` (make sure to uncomment and save).
+
 
 After setting up the 3 files mentioned above, run the following command:
 ```
@@ -27,7 +31,7 @@ Edit the `davmail.properties` file and set `davmail.server=false` and set `davma
 
 ```
 docker build . -t davmail # again, this might take a bit
-docker run --network=host --rm --name davmail --hostname davmail -v /tmp/.X11-unix:/tmp/.X11-unix  -e "DISPLAY=${DISPLAY}" -v "${XAUTHORITY:-$HOME/.Xauthority}:/.Xauthority:ro" -v davmail.properties/davmail.properties -u "$UID" davmail
+docker run --network=host --rm --name davmail --hostname davmail -v /tmp/.X11-unix:/tmp/.X11-unix  -e "DISPLAY=${DISPLAY}" -v "${XAUTHORITY:-$HOME/.Xauthority}:/.Xauthority:ro" -v ./davmail.properties:/davmail.properties -u "$UID" davmail
 ```
 
 
@@ -35,7 +39,9 @@ Next, open your email client, e.g. thunderbird. Add a new account and make sure 
 
 After pressing connect on the email client (sometimes you may need to ignore ssl warnings), the GUI from davmail should show instructions on how to authenticate (depending on the davmail.mode you set before). Please follow these instructions and confirm that your account is now connected. To move the configuration to your server/headless instance, stop the docker container (Ctrl+C) and type `cat davmail.properties`.
 
-At the bottom, there is an entry called `davmail.oauth.<email>.refreshToken`. Copy this to the `server.properties` on your server and then restart the container (on your server). You can now configure your email client again using the same steps before, but instead of localhost you should use your server ip (make sure you put in the same `<password>`).
+At the bottom, there is an entry called `davmail.oauth.<email>.refreshToken={AES}...`. Edit `.env.oauth` on your server to include `<email>={AES}...` and restart the container.
+
+You can now configure your email client again using the same steps before, but instead of localhost you should use your server ip (make sure you put in the same `<password>`).
 
 ### Setting up SSL
 
