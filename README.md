@@ -6,7 +6,7 @@ This is a Dockerfile that allows you to run [DavMail](https://github.com/mguessa
 
 To run davmail (headless) in Docker, download the `Dockerfile` and `compose.yml` file to your server.
 
-You also need to download the server config from [here](https://github.com/mguessan/davmail/blob/master/src/etc/davmail.properties) and save it as `davmail.properties`.
+You also need to download the server config from [here](https://raw.githubusercontent.com/mguessan/davmail/refs/heads/master/src/etc/davmail.properties) and save it as `davmail.properties`.
 
 
 After setting up the 3 files mentioned above, run the following command:
@@ -21,7 +21,7 @@ Also make sure to change the ports in the `compose.yml` file to make sure you ar
 
 ### Setting up OAuth2 on "headless"
 
-Normally running davmail headless means that you can not use OAuth2, because you need a GUI for that. However, what you can do is download the `Dockerfile` to your **PC** and download the config from [here](https://github.com/mguessan/davmail/blob/master/src/etc/davmail.properties), make sure to save it as `davmail.properties`.
+Normally running davmail headless means that you can not use OAuth2, because you need a GUI for that. However, what you can do is download the `Dockerfile` to your **PC** and download the config from [here](https://raw.githubusercontent.com/mguessan/davmail/refs/heads/master/src/etc/davmail.properties), make sure to save it as `davmail.properties`.
 
 Edit the `davmail.properties` file and set `davmail.server=false` and set `davmail.mode=O365Manual` (or whatever method you want to use, see [Exchange protocol](https://davmail.sourceforge.net/gettingstarted.html)), and run the commands below (make sure to do this on your **PC**).
 
