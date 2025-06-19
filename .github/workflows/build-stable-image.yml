@@ -6,7 +6,7 @@ on:
       - trunk 
 
 jobs:
-  build-and-push-beta-image:
+  build-and-push-stable-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,7 +29,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push beta image
+      - name: Build and push stable image
         uses: docker/build-push-action@v6
         with:
           context: .

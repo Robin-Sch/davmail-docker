@@ -1,4 +1,4 @@
-name: Build and push the beta image
+name: Build and push the unstable image
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-push-beta-image:
+  build-and-push-unstable-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -29,12 +29,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push beta image
+      - name: Make github.repository lowercase
+        run: echo "IMAGE_NAME=`echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'`" >> ${GITHUB_ENV}
+
+      - name: Build and push unstable image
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:beta
+            ghcr.io/${{ env.IMAGE_NAME }}:unstable
           cache-from: type=gha
           cache-to: type=gha,mode=max
